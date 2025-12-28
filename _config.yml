@@ -124,5 +124,5 @@ comments:
     reactions_enabled: "1"    # "1" to enable, "0" to disable
     emit_metadata: "0"
     input_position: "top"  # "top" or "bottom"
-    theme: "transparent"            # Choose a theme like light, dark, or transparent
+    theme: "light"            # Choose a theme like light, dark, or transparent
     lang: "en"                # Language for the widget
