@@ -113,3 +113,16 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+comments:
+  provider: "giscus"
+  giscus:
+    repo_id: "R_kgDOQQ9H_A"
+    category_name: "Announcements" # The name of the category you created
+    category_id: "DIC_kwDOQQ9H_M4C0UyB"
+    mapping: "pathname"       # Options: pathname, url, title, og:title
+    reactions_enabled: "1"    # "1" to enable, "0" to disable
+    emit_metadata: "0"
+    input_position: "top"  # "top" or "bottom"
+    theme: "transparent"            # Choose a theme like light, dark, or transparent
+    lang: "en"                # Language for the widget
