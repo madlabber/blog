@@ -1,0 +1,184 @@
+---
+layout: post
+permalink: https://madlabber.wordpress.com/2019/08/15/running-an-ontap-select-eval-cluster-on-a-nuc/
+title: Running an ONTAP Select eval cluster on a NUC
+description: None
+date: 2019-08-15 08:15:56 -0000
+last_modified_at: 2019-08-15 08:15:56 -0000
+publish: true
+pin: false
+image:
+  path: https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-svm10.jpg
+categories:
+- Uncategorized
+tags: []
+---
+In this post, I'll give a little overview of ONTAP Select, how to get a free eval copy, and how to deploy it on a NUC or other small lab host. I'll also go through some getting started steps to take the ONTAP Select instance through deployment and on to serving data. This builds on a recent post that covered the [install of ESXi on the NUC](https://madlabber.wordpress.com/2019/07/13/running-esxi-6-7-on-a-bean-canyon-intel-nuc-nuc8i5beh/) and turns it into a storage appliance running ONTAP.
+
+**About ONTAP Select**
+
+ONTAP Select is the ONTAP operating system, running in a Virtual Machine on an ESXi or KVM host. This is the same ONTAP operating system that runs on NetApp FAS and AFF engineered systems, and in the major cloud providers as Cloud Volumes ONTAP. ONTAP can run just about anywhere, but the accessibility of ONTAP Select makes it a great platform for running ONTAP in the homelab. You can use it to learn ONTAP, try out new releases, or just to add some feature rich storage to your lab.
+
+**System Requirements**
+
+What I need:  
+According to the documentation, to run a single node ONTAP Select cluster my VMware host needs:  
+\- 2 x 1GbE NICs  
+\- Six physical cores or greater, with four reserved for ONTAP Select  
+\- 24GB or greater with 16GB reserved for ONTAP Select.  
+\- A hardware raid controller or enough internal SSDs to enable software raid  
+  
+What I have:  
+\- 1 x 1GbE NIC  
+\- 4 physical cores  
+\- 64GB RAM  
+\- 1xNVME drive + 1xSATA SSD drive  
+  
+So the NUC doesn't quite meet the documented system requirements, but I'll make it work anyway.
+
+**Obtaining ONTAP Select**
+
+ONTAP Select has a free 90 trial available at the following this link:  
+<https://www.netapp.com/us/forms/tools/90-day-trial-of-ontap-select.aspx>  
+If you have an existing account on the NetApp support site, you can download it from the evaluation section of the support site. If you need to create a guest account, follow the instructions on the 90 day trial link to get access. Once logged in you'll find it in the product evaluation section, or just follow this link:  
+<https://mysupport.netapp.com/NOW/download/special/ontapselect_eval/>  
+The version I'll be installing is the Standalone Eval OVA:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/selectdownload.jpg)
+
+Just to be clear, this is not the way a licensed version would be installed. A licensed version would be installed using the ONTAP Deploy utility OVA, which is part deployment tool, part HA mediator, and part license manager. It is possible to install a properly licensed ONTAP Select instance on a NUC, but that is a topic for another day. Today is about having some fun with the Standalone Eval version.
+
+**Deploying ONTAP Select**
+
+Now that we have the OVA file downloaded, we can just deploy it like any other OVA. From a resource standpoint, the VM requires 4 vCPUs, 16gb of RAM, and 300gb+ of disk space, which is just within reach of a small platform like the intel NUC.
+
+The datastore really should be a local SSD or NVME based datastore for performance reasons, so I will be deploying it to the internal NVME drive on my NUC. The VM will need about 302GB for a thick provisioned deployment.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-3.jpg)
+
+Connect it to your VM Network, and choose the default deployment type, "ONTAP Select Evaluation - Small".
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-5.jpg)
+
+The additional settings page contains the IPs and hostname that will be used to create the cluster.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-6.jpg)
+
+**Clustername:** ONTAP Select clusters can contain 1,2,4,or 8 nodes. This field specifies the name of the cluster, not the underlying node(s).  
+**Data Disk Size for ONTAP Select:** This is the size of the virtual disk that will be used to store user data. The default for the eval is 100gb, but you can increase it if more space is available.  
+**Cluster Management IP address:** This is the primary management IP for the cluster, regardless of the number of nodes it contains.  
+**Node Management IP address:** This IP is used to manage the individual node.  
+**Netmask and Gateway:** Set these to match your VM Network subnet.  
+**Node Name:** Each node in an ONTAP cluster is assigned a unique name. This cluster will only contain one node, so give it a name.  
+**Administrative Password:** This sets the initial password for the cluster's 'admin' account. Use at least a mix of letters and numbers. The deployment may fail if the password is too simple.
+
+Continue on with deployment, then open up the VM console and wait for the login prompt:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-init.png)
+
+You won't typically use the VM console window after the initial deployment. Instead you would either SSH to the cluster management IP, or log into the ONTAP System Manager GUI in a browser.
+
+**Accessing the ONTAP System Manager GUI**
+
+After a few minutes the System Manager login should be available on the Cluster Management IP address. By default, the interface is only available via HTTPS. Login as user admin, with the password specified in the OVA deployment workflow.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-login.jpg)
+
+Once logged in to the ONTAP System Manager GUI, you'll be at the cluster's dashboard page:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-dashboard.png)
+
+**Preparing to serve data**
+
+ONTAP Clusters are a platform for running Storage Virtual Machines (SVMs, also known as vservers). The SVMs provide the actual user facing data services like CIFS, NFS, iSCSI, etc. Before we can create an SVM, we need a data aggregate. To use a virtualization frame of reference, if SVMs are analogous to VMs, data aggregates are analogous to datastores. On larger systems, data aggregates are an 'aggregate' of one or more raid groups. In the case of this little ONTAP Select instance, the data aggregate will be a single virtual disk in raid0.
+
+Navigate to Storage->Aggregates & Disks->Aggreagates, then click create:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-aggr-create1.jpg)
+
+At this point there will only be 1 disk available, so give the aggregate a name. In this example I called it aggr1. Then click submit.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-aggr-create2.jpg)
+
+**Adding more storage**
+
+My NUC has a SATA SSD in addition to the NVME drive where I deployed the ONTAP Select VM. I could make a datastore on that SSD, put a large VMDK on that datastore, and attach it to the ONTAP Select VM. But I actually prefer to just RDM the whole disk. That takes a little CLI work on the ESX host.
+
+After enabling SSH on my ESX host and logging in over SSH, I can find the sata drive's device identifier:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ots-find-sata-dev.png)
+
+And use vmkfstools to create a passthru RDM for that device:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/rdm.jpg)
+
+I can then attach that VMDK to my ONTAP Select VM and use it to create another data aggregate. Edit the VM, add a hard disk, and pick "Existing Hard Disk". Browse to the RDM disk and add it to the VM.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/rdm2.png)
+
+That disk will show up as an unassigned disk in ONTAP, which I can later assign to my node and use to create another data aggregate.
+
+Navigate to Storage->Aggregates & Disks->Disks, select the unassigned disk from the list and click assign.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image.png)
+
+In the Assign Disks dialogue, click Assign. Then the disk will be available in the aggregate create workflow.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image-1.png)
+
+**Setting Reservations**
+
+The ONTAP Select VM needs some reservations to protect it from other VMs that may be running on the host. In a production deployment, 100% of CPU and RAM would be reserved, but on this tiny platform that is not feasible. We can and should reserve 100% of the RAM, and at least ~25% of the CPU. This host has ~8ghz available over 4 cores, so I'll set my CPU reservation at 2000, and my memory reservation at 16GB.
+
+**Treating it like an appliance**
+
+Since I'll be treating this host like a home lab storage appliance, I will set this VM to start and stop with host. Enable autostart, make this VM start first, and set the shutdown behaviour to 'shut down' to allow ONTAP to shutdown gracefully.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/autostart.jpg)
+
+**Passing VLANs to ONTAP**
+
+For ONTAP Select to support VLANs like the hardware appliances do, it needs to be attached to a VMware port group assigned to VLAN 4095. This configures the port group as a VLAN trunk, and allows VMs to handle VLAN tags on their own. VMware calls this configuration "Virtual Guest Tagging" or VGT. If you want that, configure a port group as shown below and connect the Select VMs NICs to that port group.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/vmtrunk.jpg)
+
+**Creating a Storage Virtual Machine**
+
+If you make SVMs all the time you might want to skip on to the conclusion, otherwise read on for a walkthrough of provisioning an SVM.  
+Start by navigating to Storage->SVMs, and click create:
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-svm1.png)
+
+On the first page of the SVM Setup wizard, specify the SVM name, which protocols to enable, and the DNS domain and name severs required to join active directory. It is possible to run CIFS in workgroup mode, but that feature is only available at the command line. For this example I'll just enable CIFS, join AD, and create my first share.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image-2.png)
+
+On the next page of the wizard provide the CIFS configuration details, starting with the IP address to use for CIFS access. In the Assign IP address drop list, select "Without a subnet", then fill out the IP information in the Add Details box. Then click OK.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image-3.png)
+
+This creates a logical interface, which needs to be assigned to a port. Ports in ONTAP are named e0a,e0b,e0c, etc. Click browse next to the Port: box and pick e0a.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image-5.png)
+
+Next fill in the CIFS server details. The CIFS Server Name is the name of the computer account it will create in Active Directory, and the remaining fields are your active directory details. You also have the option of creating an initial CIFS share as part of the SVM setup wizard.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image-4.png)
+
+On the Admin details page of the wizard, enter a password for the vsadmin account. Each SVM has its own administrative account that can be used for delegation, or integration with other applications.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/image-6.png)
+
+Click submit and continue, then OK on the final confirmation page, and your new SVM will be created, along with that initial share.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-share01.png)
+
+This was a deliberately simple example. To learn more about ONTAP and ONTAP Select, see the resources available on [docs.netapp.com](https://www.netapp.com/us/documentation/index.aspx).
+
+**Conclusion**
+
+The end result of this little lab adventure is an Intel NUC or similar small ESX host, configured to act as an appliance running a single node ONTAP Select cluster, with a couple of RAID0 data aggregates, support for CIFS, NFS and iSCSI, and all the data management features you would get in an enterprise class storage system. It may only last for 90 days, but that's long enough to learn how to use SnapMirror. With storage efficiencies applied, the results can be pretty impressive. Here is a screenshot from one filled with nested lab VMs.
+
+![](https://madlabber.wordpress.com/wp-content/uploads/2019/08/ova-svm10.jpg)
+
+I have covered the steps to build this lab box interactively, but I'll revisit this in a future post and replace all these tasks with Ansible so I can spin up a new lab box just by running a playbook. After all, this build has several single points of failure so I'll need something to SnapMirror to for data protection.
