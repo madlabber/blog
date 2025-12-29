@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/07/08/deploying-the-vcenter-server-appliance-ova-with-ansible/
+permalink: /2019/07/08/deploying-the-vcenter-server-appliance-ova-with-ansible/
 title: Deploying the vCenter Server Appliance OVA with Ansible
 description: None
 date: 2019-07-09 03:36:36 -0000

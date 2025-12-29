@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/10/02/installing-ontap-select-deploy-on-kvm-on-a-nuc/
+permalink: /2019/10/02/installing-ontap-select-deploy-on-kvm-on-a-nuc/
 title: Installing ONTAP Select Deploy on KVM (on a NUC)
 description: None
 date: 2019-10-03 04:46:24 -0000

@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/09/08/creating-a-new-active-directory-forest-with-ansible/
+permalink: /2019/09/08/creating-a-new-active-directory-forest-with-ansible/
 title: Creating a new Active Directory Forest with Ansible
 description: None
 date: 2019-09-09 05:10:54 -0000

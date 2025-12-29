@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/08/15/running-an-ontap-select-eval-cluster-on-a-nuc/
+permalink: /2019/08/15/running-an-ontap-select-eval-cluster-on-a-nuc/
 title: Running an ONTAP Select eval cluster on a NUC
 description: None
 date: 2019-08-15 08:15:56 -0000

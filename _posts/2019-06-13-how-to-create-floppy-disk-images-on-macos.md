@@ -1,12 +1,19 @@
 ---
-title: "How to create floppy disk images on MacOS"
+permalink: /2019/06/13/how-to-create-floppy-disk-images-on-macos/
+title: How to create floppy disk images on MacOS
+description: None
+date: 2019-06-13 13:23:50 -0000
+last_modified_at: 2019-06-14 14:20:03 -0000
+publish: true
+pin: false
 categories:
-  - Blog
-  - Automation
-  - Virtualization
+- Uncategorized
 tags:
-  - automation
-  - virtualization
+- floppy
+- fusion
+- macos
+- virtualization
+- vmware
 ---
 
 I know what you're thinking. Why.

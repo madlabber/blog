@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2021/03/10/running-esxi7-0u1-on-a-frost-canyon-nuc10i7fnh/
+permalink: /2021/03/10/running-esxi7-0u1-on-a-frost-canyon-nuc10i7fnh/
 title: Running ESXi7.0U1 on a Frost Canyon NUC10I7FNH
 description: None
 date: 2021-03-11 07:47:05 -0000

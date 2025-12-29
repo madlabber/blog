@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/07/26/anatomy-of-a-virtual-lab-environment/
+permalink: /2019/07/26/anatomy-of-a-virtual-lab-environment/
 title: Anatomy of a Virtual Lab Environment
 description: None
 date: 2019-07-26 07:34:52 -0000

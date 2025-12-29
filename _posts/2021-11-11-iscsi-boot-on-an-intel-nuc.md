@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2021/11/11/iscsi-boot-on-an-intel-nuc/
+permalink: /2021/11/11/iscsi-boot-on-an-intel-nuc/
 title: iSCSI Boot on an Intel NUC
 description: None
 date: 2021-11-11 08:10:33 -0000

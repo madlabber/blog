@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2021/10/24/mitigating-esxi-7-0-usb-boot-device-problems/
+permalink: /2021/10/24/mitigating-esxi-7-0-usb-boot-device-problems/
 title: Mitigating ESXi 7.0 USB boot device problems
 description: None
 date: 2021-10-24 23:37:38 -0000

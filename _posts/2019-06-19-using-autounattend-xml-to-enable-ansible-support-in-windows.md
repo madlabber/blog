@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/06/19/using-autounattend-xml-to-enable-ansible-support-in-windows/
+permalink: /2019/06/19/using-autounattend-xml-to-enable-ansible-support-in-windows/
 title: Using autounattend.xml to enable Ansible support in Windows
 description: None
 date: 2019-06-20 03:33:32 -0000

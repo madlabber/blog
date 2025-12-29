@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2020/03/14/converting-the-ontap-simulator-to-work-in-virtualbox/
+permalink: /2020/03/14/converting-the-ontap-simulator-to-work-in-virtualbox/
 title: Converting the ONTAP Simulator to work in VirtualBox
 description: None
 date: 2020-03-15 02:51:52 -0000

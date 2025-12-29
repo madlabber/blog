@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/?p=113
+permalink: /2019/06/30/intel-nucs-in-the-homelab/
 title: Intel NUCs in the Homelab
 description: None
 date: 2019-06-30 07:16:48 -0000

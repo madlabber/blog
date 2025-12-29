@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/07/13/running-esxi-6-7-on-a-bean-canyon-intel-nuc-nuc8i5beh/
+permalink: /2019/07/13/running-esxi-6-7-on-a-bean-canyon-intel-nuc-nuc8i5beh/
 title: Running ESXi 6.7 on a Bean Canyon Intel NUC NUC8i5BEH.
 description: None
 date: 2019-07-14 01:16:32 -0000

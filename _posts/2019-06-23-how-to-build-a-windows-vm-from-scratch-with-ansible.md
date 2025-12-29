@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/06/23/how-to-build-a-windows-vm-from-scratch-with-ansible/
+permalink: /2019/06/23/how-to-build-a-windows-vm-from-scratch-with-ansible/
 title: How to build a Windows VM from scratch with Ansible
 description: None
 date: 2019-06-23 15:34:58 -0000

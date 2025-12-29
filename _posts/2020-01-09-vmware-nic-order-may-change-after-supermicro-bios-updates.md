@@ -1,6 +1,5 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2020/01/09/vmware-nic-order-may-change-after-supermicro-bios-updates/
+permalink: /2020/01/09/vmware-nic-order-may-change-after-supermicro-bios-updates/
 title: VMware NIC order may change after SuperMicro BIOS updates.
 description: None
 date: 2020-01-09 08:33:44 -0000
