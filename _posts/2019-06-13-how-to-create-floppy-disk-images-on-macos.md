@@ -45,6 +45,7 @@ Later, if you need to mount that .flp on MacOS, you can also do that with hdiuti
 The output will include the device path and the mount path.  Either of which can be used to eject the disk:
 
     hdiutil eject /Volumes/FLOPPYROOT
+
 or
 
     hdiutil eject /dev/disk2
