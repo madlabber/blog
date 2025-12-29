@@ -1,6 +1,6 @@
 ---
-layout: post
-permalink: https://madlabber.wordpress.com/2019/05/29/the-journey-begins/
+#layout: post
+permalink: https://madlabber.github.io/blog/2019/05/29/the-journey-begins/
 title: hello_world
 description: None
 date: 2019-05-29 07:16:43 -0000
