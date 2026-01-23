@@ -40,7 +40,7 @@ Setting 'inject_ovf_env' to 'true' will pass the properties to the VM at power o
 
 In the case of the VCSA, first we need to grab the OVA file. It's located in the vcsa folder within the VCSA ISO.
 
-![](https://madlabber.wordpress.com/wp-content/uploads/2019/07/vcsa-location.png)
+![](/https:/madlabber.wordpress.com/wp-content/uploads/2019/07/vcsa-location.png)
 
 Next we need to extract the OVA to get at the ovf file. OVA files are tar archives with a specific set of constraints, so anything that can extract a tar can extract an OVA.
 
